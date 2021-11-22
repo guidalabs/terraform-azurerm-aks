@@ -295,3 +295,8 @@ variable "enable_host_encryption" {
   type        = bool
   default     = false
 }
+
+variable "location" {
+  description = "The Azure Region where the resources should exist. Changing this forces a new resources to be created"
+  type        = string
+}
