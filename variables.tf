@@ -80,6 +80,18 @@ variable "enable_log_analytics_workspace" {
   default     = true
 }
 
+variable "oms_agent_enabled" {
+  type        = bool
+  description = "Enable oms agent, can't used this with enable_log_analytics_workspace = true"
+  default     = false
+}
+
+variable "oms_log_analytics_workspace_id" {
+  type        = string
+  description = "Log to external log analytics workspace id, only with oms_agent_enabled = true"
+  default     = ""
+}
+
 variable "vnet_subnet_id" {
   description = "(Optional) The ID of a Subnet where the Kubernetes Node Pool should exist. Changing this forces a new resource to be created."
   type        = string

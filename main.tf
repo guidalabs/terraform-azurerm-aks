@@ -96,9 +96,20 @@ resource "azurerm_kubernetes_cluster" "main" {
       enabled = var.enable_azure_policy
     }
 
-    oms_agent {
-      enabled                    = var.enable_log_analytics_workspace
-      log_analytics_workspace_id = var.enable_log_analytics_workspace ? azurerm_log_analytics_workspace.main[0].id : null
+    dynamic "oms_agent" {
+      for_each = var.enable_log_analytics_workspace == true ? [1] : []
+      content {
+        enabled                    = var.enable_log_analytics_workspace
+        log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
+      }
+    }
+
+    dynamic "oms_agent" {
+      for_each = var.oms_agent_enabled == true ? [1] : []
+      content {
+        enabled                    = var.oms_agent_enabled
+        log_analytics_workspace_id = var.oms_log_analytics_workspace_id
+      }
     }
   }
 
