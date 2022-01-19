@@ -98,6 +98,12 @@ variable "private_cluster_enabled" {
   default     = false
 }
 
+variable "private_cluster_public_fqdn_enabled" {
+  description = "Specifies whether a Public FQDN for this Private Cluster should be added"
+  type        = bool
+  default     = false
+}
+
 variable "api_server_authorized_ip_ranges" {
   description = "(Optional) The IP ranges to whitelist for incoming traffic to the masters. API server authorized IP address ranges are not supported for private clusters"
   type        = list(string)

@@ -5,14 +5,15 @@ module "ssh-key" {
 }
 
 resource "azurerm_kubernetes_cluster" "main" {
-  name                            = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
-  kubernetes_version              = var.kubernetes_version
-  location                        = var.location
-  resource_group_name             = var.resource_group_name
-  dns_prefix                      = var.prefix
-  sku_tier                        = var.sku_tier
-  private_cluster_enabled         = var.private_cluster_enabled
-  api_server_authorized_ip_ranges = length(var.api_server_authorized_ip_ranges) > 0 ? var.api_server_authorized_ip_ranges : []
+  name                                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
+  kubernetes_version                  = var.kubernetes_version
+  location                            = var.location
+  resource_group_name                 = var.resource_group_name
+  dns_prefix                          = var.prefix
+  sku_tier                            = var.sku_tier
+  private_cluster_enabled             = var.private_cluster_enabled
+  private_cluster_public_fqdn_enabled = var.private_cluster_public_fqdn_enabled
+  api_server_authorized_ip_ranges     = length(var.api_server_authorized_ip_ranges) > 0 ? var.api_server_authorized_ip_ranges : []
 
   linux_profile {
     admin_username = var.admin_username
