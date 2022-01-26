@@ -111,6 +111,14 @@ resource "azurerm_kubernetes_cluster" "main" {
         log_analytics_workspace_id = var.oms_log_analytics_workspace_id
       }
     }
+
+    dynamic "oms_agent" {
+      for_each = var.oms_agent_enabled == false && var.enable_log_analytics_workspace == false ? ["oms_agent"] : []
+      content {
+        enabled = false
+      }
+    }
+
   }
 
   role_based_access_control {
