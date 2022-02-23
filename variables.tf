@@ -107,7 +107,7 @@ variable "os_disk_size_gb" {
 variable "os_disk_type" {
   description = "The type of disk which should be used for the Operating System. Possible values are Ephemeral and Managed."
   type        = string
-  default     = "Ephemeral"
+  default     = "Managed"
 }
 
 variable "private_cluster_enabled" {
