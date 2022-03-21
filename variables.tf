@@ -284,12 +284,17 @@ variable "agents_availability_zones" {
   default     = null
 }
 
+variable "agents_only_critical_addons_enabled" {
+  description = "Enabling this option will taint default node pool with CriticalAddonsOnly=true:NoSchedule taint. Changing this forces a new resource to be created."
+  type        = bool
+  default     = false
+}
+
 variable "agents_labels" {
   description = "(Optional) A map of Kubernetes labels which should be applied to nodes in the Default Node Pool. Changing this forces a new resource to be created."
   type        = map(string)
   default     = {}
 }
-
 variable "agents_type" {
   description = "(Optional) The type of Node Pool which should be created. Possible values are AvailabilitySet and VirtualMachineScaleSets. Defaults to VirtualMachineScaleSets."
   type        = string
