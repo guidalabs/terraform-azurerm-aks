@@ -48,3 +48,5 @@ Gemfile.lock
 
 # SSH Key
 private_ssh_key
+
+.terraform.lock.hcl
