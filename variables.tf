@@ -337,9 +337,4 @@ variable "location" {
 }
 
 # Velero storageaccount settings
-variable "velero" {
-  type = map(any)
-  default = {
-    enabled = false
-  }
-}
+variable "velero" {}

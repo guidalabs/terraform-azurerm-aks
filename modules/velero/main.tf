@@ -37,7 +37,7 @@ resource "azurerm_storage_account" "velero" {
     default_action = "Deny"
     ip_rules       = try(var.velero.ip_rules, [])
 
-    # Need to check if we want this
+    # Need to check if we want this, because pod identity is deprecated
     # dynamic "private_link_access" {
     #   for_each = (var.managed_identity ? [1] : [])
     #   content {
@@ -69,16 +69,14 @@ resource "azurerm_private_endpoint" "velero" {
     is_manual_connection           = false
     subresource_names              = ["blob"]
   }
-  private_dns_zone_group {
-    name                 = "blob"
-    private_dns_zone_ids = try(var.velero.private_dns_zone_ids, null)
+  dynamic "private_dns_zone_group" {
+    for_each = try(var.velero.private_dns_zone_ids, "") != "" ? ["private_dns_zone_group"] : []
+    content {
+      name                 = "blob"
+      private_dns_zone_ids = try(var.velero.private_dns_zone_ids, null)
+    }
   }
 }
 
 # Velero storageaccount settings
-variable "velero" {
-  type = map(any)
-  default = {
-    enabled = false
-  }
-}
+variable "velero" {}
