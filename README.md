@@ -74,6 +74,16 @@ module "aks" {
   net_profile_service_cidr       = "10.0.0.0/16"
 
   depends_on = [module.network]
+
+  velero = {
+    enabled                    = true
+    name                       = stveleroclustername
+    resource_group_name        = azurerm_resource_group.example.name
+    location                   = var.location
+    storage_container_name     = scveleroclustername
+    private_endpoint_subnet_id = module.network.vnet_subnets[0]
+    private_endpoint_name      = "pe-velero-clustername}-1"
+  }
 }
 ```
 
