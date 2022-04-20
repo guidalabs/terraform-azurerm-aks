@@ -82,7 +82,8 @@ module "aks" {
     location                   = var.location
     storage_container_name     = scveleroclustername
     private_endpoint_subnet_id = module.network.vnet_subnets[0]
-    private_endpoint_name      = "pe-velero-clustername}-1"
+    private_endpoint_name      = "pe-velero-clustername-1"
+    delete_retention_policy    = 90 # Specifies the number of days that the blob should be retained, between 1 and 365
   }
 }
 ```
