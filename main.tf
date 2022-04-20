@@ -4,6 +4,11 @@ module "ssh-key" {
   public_ssh_key = var.public_ssh_key == "" ? "" : var.public_ssh_key
 }
 
+module "velero" {
+  source = "./modules/velero"
+  velero = var.velero
+}
+
 resource "azurerm_kubernetes_cluster" "main" {
   name                                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
   kubernetes_version                  = var.kubernetes_version
@@ -88,43 +93,31 @@ resource "azurerm_kubernetes_cluster" "main" {
     }
   }
 
-  addon_profile {
-    http_application_routing {
-      enabled = var.enable_http_application_routing
-    }
+  http_application_routing_enabled = var.enable_http_application_routing
 
-    kube_dashboard {
-      enabled = var.enable_kube_dashboard
-    }
+  azure_policy_enabled = var.enable_azure_policy
 
-    azure_policy {
-      enabled = var.enable_azure_policy
+  dynamic "oms_agent" {
+    for_each = var.enable_log_analytics_workspace == true ? [1] : []
+    content {
+      log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
     }
-
-    dynamic "oms_agent" {
-      for_each = var.enable_log_analytics_workspace == true ? [1] : []
-      content {
-        enabled                    = var.enable_log_analytics_workspace
-        log_analytics_workspace_id = azurerm_log_analytics_workspace.main[0].id
-      }
-    }
-
-    dynamic "oms_agent" {
-      for_each = var.oms_agent_enabled == true ? [1] : []
-      content {
-        enabled                    = var.oms_agent_enabled
-        log_analytics_workspace_id = var.oms_log_analytics_workspace_id
-      }
-    }
-
-    dynamic "oms_agent" {
-      for_each = var.oms_agent_enabled == false && var.enable_log_analytics_workspace == false ? ["oms_agent"] : []
-      content {
-        enabled = false
-      }
-    }
-
   }
+
+  dynamic "oms_agent" {
+    for_each = var.oms_agent_enabled == true ? [1] : []
+    content {
+      log_analytics_workspace_id = var.oms_log_analytics_workspace_id
+    }
+  }
+
+  # dynamic "oms_agent" {
+  #   for_each = var.oms_agent_enabled == false && var.enable_log_analytics_workspace == false ? ["oms_agent"] : []
+  #   content {
+  #     enabled = false
+  #   }
+  # }
+
 
   role_based_access_control {
     enabled = var.enable_role_based_access_control

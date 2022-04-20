@@ -335,3 +335,11 @@ variable "location" {
   description = "The Azure Region where the resources should exist. Changing this forces a new resources to be created"
   type        = string
 }
+
+# Velero storageaccount settings
+variable "velero" {
+  type = map(any)
+  default = {
+    enabled = false
+  }
+}
