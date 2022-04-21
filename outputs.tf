@@ -34,6 +34,10 @@ output "aks_id" {
   value = azurerm_kubernetes_cluster.main.id
 }
 
+output "vnet_subnet_id" {
+  value = azurerm_kubernetes_cluster.main.default_node_pool.0.vnet_subnet_id
+}
+
 output "kube_config_raw" {
   sensitive = true
   value     = azurerm_kubernetes_cluster.main.kube_config_raw
