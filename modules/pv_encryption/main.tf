@@ -65,7 +65,7 @@ resource "azurerm_disk_encryption_set" "des" {
   count               = var.pv_encryption.enabled ? 1 : 0
   name                = try(var.pv_encryption.des_name, format("%s-%s", "des", var.pv_encryption.suffix))
   resource_group_name = try(var.pv_encryption.resource_group_name, null)
-  location            = var.location
+  location            = try(var.velero.location, null)
   key_vault_key_id    = azurerm_key_vault_key.kvk[0].id
 
   identity {
