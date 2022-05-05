@@ -13,7 +13,7 @@ resource "azurerm_key_vault" "kv" {
   sku_name                    = try(var.pv_encryption.sku_name, "standard")
 
   access_policy {
-    tenant_id = try(var.pv_encryption.sp_tenant_id, null)
+    tenant_id = try(var.pv_encryption.tenant_id, null)
     object_id = try(var.pv_encryption.sp_object_id, null)
 
     key_permissions = [
