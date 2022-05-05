@@ -24,7 +24,7 @@ resource "azurerm_key_vault" "kv" {
     secret_permissions  = []
     storage_permissions = []
   }
-  network_rules {
+  network_acls {
     bypass = [
       "AzureServices",
     ]
