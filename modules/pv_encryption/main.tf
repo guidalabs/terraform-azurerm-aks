@@ -74,7 +74,7 @@ resource "azurerm_disk_encryption_set" "des" {
 }
 
 output "des_resource_id" {
-  value = azurerm_disk_encryption_set.des[0].id
+  value = azurerm_disk_encryption_set.des[*].id
 }
 
 # Persistent volume encryption settings
