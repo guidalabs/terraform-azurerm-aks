@@ -338,3 +338,6 @@ variable "location" {
 
 # Velero storageaccount settings
 variable "velero" {}
+
+# Persistent volume encryption settings
+variable "pv_encryption" {}
