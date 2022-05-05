@@ -25,9 +25,7 @@ resource "azurerm_key_vault" "kv" {
     storage_permissions = []
   }
   network_acls {
-    bypass = [
-      "AzureServices",
-    ]
+    bypass = "AzureServices"
     default_action = "Deny"
     ip_rules       = try(var.pv_encryption.ip_rules, [])
   }
