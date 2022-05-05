@@ -6,7 +6,7 @@ resource "azurerm_key_vault" "kv" {
   name                        = try(var.pv_encryption.kv_name, null)
   location                    = try(var.pv_encryption.location, null)
   resource_group_name         = try(var.pv_encryption.resource_group_name, null)
-  enabled_for_disk_encryption = true # Required for Disk Encryption Set keys
+  enabled_for_disk_encryption = true # Required for Disk Encryption Set keysazurerm_disk_encryption_set.des.identity.0.tenant_id
   tenant_id                   = try(var.pv_encryption.tenant_id, null)
   soft_delete_retention_days  = try(var.pv_encryption.soft_delete_retention_days, 7)
   purge_protection_enabled    = true # Disk Encryption Set requires Key vault with purge protection
@@ -34,8 +34,8 @@ resource "azurerm_key_vault" "kv" {
 resource "azurerm_key_vault_access_policy" "des" {
   count        = var.pv_encryption.enabled ? 1 : 0
   key_vault_id = azurerm_key_vault.kv[0].id
-  tenant_id    = azurerm_disk_encryption_set.des.identity.0.tenant_id
-  object_id    = azurerm_disk_encryption_set.des.identity.0.principal_id
+  tenant_id    = azurerm_disk_encryption_set.des[0].identity.0.tenant_id
+  object_id    = azurerm_disk_encryption_set.des[0].identity.0.principal_id
 
   key_permissions = [
     "Get",
