@@ -34,6 +34,10 @@ output "aks_id" {
   value = azurerm_kubernetes_cluster.main.id
 }
 
+output "private_fqdn" {
+  value = azurerm_kubernetes_cluster.main.private_fqdn
+}
+
 output "vnet_subnet_id" {
   value = azurerm_kubernetes_cluster.main.default_node_pool.0.vnet_subnet_id
 }
