@@ -9,6 +9,11 @@ module "velero" {
   velero = var.velero
 }
 
+module "pv_encryption" {
+  source = "./modules/pv_encryption"
+  pv_encryption = var.pv_encryption
+}
+
 resource "azurerm_kubernetes_cluster" "main" {
   name                                = var.cluster_name == null ? "${var.prefix}-aks" : var.cluster_name
   kubernetes_version                  = var.kubernetes_version
